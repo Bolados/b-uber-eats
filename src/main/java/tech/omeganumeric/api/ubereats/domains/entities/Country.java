@@ -46,15 +46,15 @@ public class Country extends AbstractMetaEntityIdDateGeometry {
     @Column
     private String variant;
 
-    @Column(length = 2)
-    @Size(max = 2)
+    @Column(nullable = false, length = 2)
+    @Size(min = 2, max = 2)
     private String code2;
 
-    @Column(length = 3)
-    @Size(max = 3)
+    @Column(nullable = false, length = 3)
+    @Size(min = 3, max = 3)
     private String code3;
 
-    @Column
+    @Column(nullable = false, length = 3)
     @Size(max = 3)
     private String phoneCode;
 
@@ -64,7 +64,7 @@ public class Country extends AbstractMetaEntityIdDateGeometry {
     @Column
     private Double density;
 
-    @Column
+    @Column(nullable = false)
     @Size(min = 2, max = 5)
     private String domain;
 

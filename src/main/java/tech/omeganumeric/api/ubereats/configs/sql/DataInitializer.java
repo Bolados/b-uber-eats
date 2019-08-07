@@ -2,11 +2,8 @@ package tech.omeganumeric.api.ubereats.configs.sql;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import tech.omeganumeric.api.ubereats.domains.entities.Region;
-import tech.omeganumeric.api.ubereats.domains.entities.Role;
-import tech.omeganumeric.api.ubereats.repositories.RegionRepository;
-import tech.omeganumeric.api.ubereats.repositories.RoleRepository;
-import tech.omeganumeric.api.ubereats.repositories.UserRepository;
+import tech.omeganumeric.api.ubereats.domains.entities.*;
+import tech.omeganumeric.api.ubereats.repositories.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -19,27 +16,103 @@ public class DataInitializer implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
+    private final MediaRepository mediaRepository;
+    private final OrderStatusRepository orderStatusRepository;
+    private final PaymentModeRepository paymentModeRepository;
+    private final PhoneRepository phoneRepository;
+
 
 
     DataInitializer(
             RoleRepository roleRepository,
             RegionRepository regionRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            MediaRepository mediaRepository,
+            OrderStatusRepository orderStatusRepository,
+            PaymentModeRepository paymentModeRepository,
+            PhoneRepository phoneRepository
+    ) {
         this.roleRepository = roleRepository;
         this.regionRepository = regionRepository;
         this.userRepository = userRepository;
+        this.mediaRepository = mediaRepository;
+        this.orderStatusRepository = orderStatusRepository;
+        this.paymentModeRepository = paymentModeRepository;
+        this.phoneRepository = phoneRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+        // phones
+        final List<Phone> phones = Stream.of(
+                Phone.builder()
+                        .number("78985612")
+                        .user(null)
+                        .restaurant(null)
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.phoneRepository.saveAll(phones);
+
+        // paymment mode
+        final List<PaymentMode> paymentModes = Stream.of(
+                PaymentMode.builder()
+                        .mode("CARD_VISA")
+                        .description("")
+                        .payments(new HashSet<>())
+                        .build(),
+                PaymentMode.builder()
+                        .mode("CASH")
+                        .description("")
+                        .payments(new HashSet<>())
+                        .build(),
+                PaymentMode.builder()
+                        .mode("PAY_PAL")
+                        .description("")
+                        .payments(new HashSet<>())
+                        .build(),
+                PaymentMode.builder()
+                        .mode("MOBILE_BANK")
+                        .description("")
+                        .payments(new HashSet<>())
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.paymentModeRepository.saveAll(paymentModes);
+
+        // orderstatus
+        final List<OrderStatus> orderStatuses = Stream.of(
+                OrderStatus.builder()
+                        .status("DELIVERED")
+                        .description("")
+                        .orders(new HashSet<>())
+                        .build(),
+                OrderStatus.builder()
+                        .status("PENDING")
+                        .description("")
+                        .orders(new HashSet<>())
+                        .build(),
+                OrderStatus.builder()
+                        .status("ACCEPTED")
+                        .description("")
+                        .orders(new HashSet<>())
+                        .build(),
+                OrderStatus.builder()
+                        .status("ON_ROAD")
+                        .description("")
+                        .orders(new HashSet<>())
+                        .build()
+        ).collect(Collectors.toList());
+        this.orderStatusRepository.saveAll(orderStatuses);
+
         // roles
         final List<Role> roles = Stream.of(
-                new Role("SUPER_ADMIN", "Super Admin", new HashSet<>()),
-                new Role("ADMIN", "Admin", new HashSet<>()),
-                new Role("ADMIN_RESTAURANT", "Chef of restaurant", new HashSet<>()),
-                new Role("EATER", "Eater", new HashSet<>()),
-                new Role("DRIVER", "Driver", new HashSet<>())
+                Role.builder().name("SUPER_ADMIN").description("Super Admin").users(new HashSet<>()).build(),
+                Role.builder().name("ADMIN").description("Admin").users(new HashSet<>()).build(),
+                Role.builder().name("ADMIN_RESTAURANT").description("Admin Restaurant").users(new HashSet<>()).build(),
+                Role.builder().name("EATER").description("Eater").users(new HashSet<>()).build(),
+                Role.builder().name("DRIVER").description("Driver").users(new HashSet<>()).build()
         ).collect(Collectors.toList());
         this.roleRepository.saveAll(roles);
 

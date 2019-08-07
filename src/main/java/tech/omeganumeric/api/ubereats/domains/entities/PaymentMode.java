@@ -52,6 +52,7 @@ public class PaymentMode extends AbstractMetaEntityIdDate {
     }
 
     private void basics() {
+        this.setMode(this.getMode().toUpperCase());
 
     }
 

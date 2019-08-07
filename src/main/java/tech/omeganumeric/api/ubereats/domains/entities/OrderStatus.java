@@ -51,6 +51,7 @@ public class OrderStatus extends AbstractMetaEntityIdDate {
     }
 
     private void basics() {
+        this.setStatus(this.getStatus().toUpperCase());
 
     }
 

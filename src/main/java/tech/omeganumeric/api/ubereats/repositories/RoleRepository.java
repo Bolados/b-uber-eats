@@ -1,8 +1,10 @@
 package tech.omeganumeric.api.ubereats.repositories;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import tech.omeganumeric.api.ubereats.domains.entities.Role;
 
@@ -15,7 +17,7 @@ import java.util.Optional;
         path = RoleRepository.PATH,
         exported = true)
 public interface RoleRepository extends MetaRepository<Role, Long> {
-    String PATH = "roles";
+    String PATH = "users_roles";
 
     @Query("SELECT l from Role l left join l.users")
     @Override
@@ -28,4 +30,23 @@ public interface RoleRepository extends MetaRepository<Role, Long> {
             "")
     Optional<Role> findByName(@Param("name") String name);
 
+    @Override
+    @RestResource(exported = false)
+    void deleteAll();
+
+    @Override
+    @RestResource(exported = false)
+    void deleteAllInBatch();
+
+    @Override
+    @RestResource(exported = false)
+    <S extends Role> List<S> saveAll(Iterable<S> iterable);
+
+    @Override
+    @RestResource(exported = false)
+    <S extends Role> Optional<S> findOne(Example<S> example);
+
+    @Override
+    @RestResource(exported = false)
+    List<Role> findAllById(Iterable<Long> iterable);
 }

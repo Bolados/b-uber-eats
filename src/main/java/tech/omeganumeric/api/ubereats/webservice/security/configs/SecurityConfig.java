@@ -44,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             PRE_REPOSITORY_PATH + RoleRepository.PATH,
             PRE_REPOSITORY_PATH + RoleRepository.PATH + ALL,
-            PRE_REPOSITORY_PATH + MediaRepository.PATH,
-            PRE_REPOSITORY_PATH + MediaRepository.PATH + ALL,
+//            PRE_REPOSITORY_PATH + MediaRepository.PATH,
+//            PRE_REPOSITORY_PATH + MediaRepository.PATH + ALL,
             PRE_REPOSITORY_PATH + OrderStatusRepository.PATH,
             PRE_REPOSITORY_PATH + OrderStatusRepository.PATH + ALL,
             PRE_REPOSITORY_PATH + PhoneRepository.PATH,

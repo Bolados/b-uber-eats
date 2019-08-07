@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class AbstractMetaEntityIdDateMedia extends AbstractMetaEntityIdDate {
 
     @Column(nullable = false, unique = true)
-    private String src;
+    private String name;
 
     @Column(nullable = false)
     private String mineType;
