@@ -49,8 +49,6 @@ public class Role extends AbstractMetaEntityIdDate {
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
     })
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),

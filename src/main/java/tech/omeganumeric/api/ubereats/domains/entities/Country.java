@@ -2,6 +2,8 @@ package tech.omeganumeric.api.ubereats.domains.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import lombok.extern.java.Log;
+import org.springframework.util.StringUtils;
 import tech.omeganumeric.api.ubereats.domains.entities.meta.AbstractMetaEntityIdDateGeometry;
 
 import javax.persistence.*;
@@ -30,6 +32,7 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "domain", name = "uk_country_domain"),
                 @UniqueConstraint(columnNames = "phoneCode", name = "uk_country_phoneCode")
         })
+@Log
 public class Country extends AbstractMetaEntityIdDateGeometry {
 
 
@@ -46,16 +49,17 @@ public class Country extends AbstractMetaEntityIdDateGeometry {
     @Column
     private String variant;
 
-    @Column(nullable = false, length = 2)
-    @Size(min = 2, max = 2)
+    @Column(length = 2)
+    @NotNull
+    @Size(min = 1, max = 2)
     private String code2;
 
-    @Column(nullable = false, length = 3)
-    @Size(min = 3, max = 3)
+    @Column(length = 3)
+    @Size(min = 2, max = 3)
     private String code3;
 
-    @Column(nullable = false, length = 3)
-    @Size(max = 3)
+    @Column(length = 3)
+    @Size(min = 1, max = 3)
     private String phoneCode;
 
     @Column
@@ -64,11 +68,11 @@ public class Country extends AbstractMetaEntityIdDateGeometry {
     @Column
     private Double density;
 
-    @Column(nullable = false)
+    @Column
     @Size(min = 2, max = 5)
     private String domain;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region", nullable = false)
     @JsonIgnoreProperties(value = {"countries"})
     @NotNull
@@ -81,13 +85,30 @@ public class Country extends AbstractMetaEntityIdDateGeometry {
     private Set<Department> departments = new HashSet<>();
 
     public void updateAssociations() {
-        for (Department department : this.departments) {
-            department.setCountry(this);
+//        log.warning(this.getRegion().toString());
+//        log.warning(this.getRegion().getCountries().toString());
+//        Set<Country> countries = this.getRegion().getCountries();
+//        countries.add(this);
+//        this.getRegion().setCountries(countries);
+        if (this.getDepartments() != null) {
+            for (Department department : this.getDepartments()) {
+                department.setCountry(this);
+            }
         }
+
     }
 
     private void basics() {
-
+        if (this.getDomain() != null) {
+            this.setDomain(this.getDomain().toUpperCase());
+        }
+        this.setCode2(this.getCode2().toUpperCase());
+        if (this.getCode3() != null) {
+            this.setCode3(this.getCode3().toUpperCase());
+        } else {
+            this.setCode3(this.getCode2());
+        }
+        this.setName(StringUtils.capitalize(this.getName()));
     }
 
     @PrePersist

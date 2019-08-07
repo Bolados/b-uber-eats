@@ -20,6 +20,8 @@ public class DataInitializer implements CommandLineRunner {
     private final OrderStatusRepository orderStatusRepository;
     private final PaymentModeRepository paymentModeRepository;
     private final PhoneRepository phoneRepository;
+    private final CountryRepository countryRepository;
+
 
 
 
@@ -30,7 +32,9 @@ public class DataInitializer implements CommandLineRunner {
             MediaRepository mediaRepository,
             OrderStatusRepository orderStatusRepository,
             PaymentModeRepository paymentModeRepository,
-            PhoneRepository phoneRepository
+            PhoneRepository phoneRepository,
+            CountryRepository countryRepository
+
     ) {
         this.roleRepository = roleRepository;
         this.regionRepository = regionRepository;
@@ -39,10 +43,12 @@ public class DataInitializer implements CommandLineRunner {
         this.orderStatusRepository = orderStatusRepository;
         this.paymentModeRepository = paymentModeRepository;
         this.phoneRepository = phoneRepository;
+        this.countryRepository = countryRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
+
 
         // phones
         final List<Phone> phones = Stream.of(
@@ -140,5 +146,36 @@ public class DataInitializer implements CommandLineRunner {
                         .build()
         ).collect(Collectors.toList());
         this.regionRepository.saveAll(regions);
+
+        Region region = this.regionRepository.findByCode("AF")
+                .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+
+        // phones
+        final List<Country> countries = Stream.of(
+                Country.builder()
+                        .name("Benin")
+                        .code2("BJ")
+                        .code3("BJ")
+                        .density(12.0d)
+                        .population(1L)
+                        .phoneCode("229")
+                        .region(region)
+                        .departments(new HashSet<>())
+                        .variant("danxome")
+                        .build(),
+                Country.builder()
+                        .name("nigeria")
+                        .code2("NG")
+                        .code3(null)
+                        .density(null)
+                        .population(null)
+                        .phoneCode(null)
+                        .region(region)
+                        .departments(new HashSet<>())
+                        .variant(null)
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.countryRepository.saveAll(countries);
     }
 }

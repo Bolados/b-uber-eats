@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(
         name = Media.FIELD_ENTITY_TABLE_NAME,
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "src", name = "uk_media_src")
+                @UniqueConstraint(columnNames = "name", name = "uk_media_name")
         })
 public class Media extends AbstractMetaEntityIdDateMedia {
 

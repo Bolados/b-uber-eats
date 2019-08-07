@@ -111,7 +111,7 @@ public class User extends AbstractMetaEntityIdDate {
     @Builder.Default
     private Set<Address> savedAddresses = new HashSet<>();
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = {"users"})
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
