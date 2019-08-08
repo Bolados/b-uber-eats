@@ -53,7 +53,8 @@ public class Menu extends AbstractMetaEntityIdDate {
     @Column
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @MapsId("name")
     @JoinColumn(name = "media", unique = true, nullable = false)
     @JsonIgnoreProperties(value = {"menu"})
     @NotNull

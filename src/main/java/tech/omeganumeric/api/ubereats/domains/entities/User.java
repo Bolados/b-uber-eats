@@ -48,6 +48,7 @@ public class User extends AbstractMetaEntityIdDate {
     private static final long serialVersionUID = 3679301844774105320L;
 
     @OneToOne
+    @MapsId("number")
     @JoinColumn(name = "phone", unique = true, nullable = false)
     @JsonIgnoreProperties(value = {"user"})
     @NotNull
@@ -80,19 +81,18 @@ public class User extends AbstractMetaEntityIdDate {
     @NotEmpty
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "residence")
     @JsonIgnoreProperties(value = {"residents"})
-    @NotNull
     private Address residence;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location")
     @JsonIgnoreProperties(value = {"locations"})
     @Builder.Default
     private Address location = null;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery")
     @JsonIgnoreProperties(value = {"deliveries"})
     @Builder.Default
@@ -103,7 +103,7 @@ public class User extends AbstractMetaEntityIdDate {
     @Builder.Default
     private Set<Order> orders = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "users_saved_addresses",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "id"))
@@ -120,19 +120,22 @@ public class User extends AbstractMetaEntityIdDate {
     private void basics() {
     }
 
+    private void checkAddressesByRoles() {
+    }
+
     private void updateAssociation() {
-        if (residence != null) {
-        }
     }
 
     @PrePersist
     public void beforePersist() {
+        this.checkAddressesByRoles();
         this.basics();
         this.updateAssociation();
     }
 
     @PreUpdate
     public void beforeUpdate() {
+        this.checkAddressesByRoles();
         this.basics();
         this.updateAssociation();
     }

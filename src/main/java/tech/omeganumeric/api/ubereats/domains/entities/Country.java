@@ -84,17 +84,11 @@ public class Country extends AbstractMetaEntityIdDateGeometry {
     private Set<Department> departments = new HashSet<>();
 
     public void updateAssociations() {
-//        log.warning(this.getRegion().toString());
-//        log.warning(this.getRegion().getCountries().toString());
-//        Set<Country> countries = this.getRegion().getCountries();
-//        countries.add(this);
-//        this.getRegion().setCountries(countries);
         if (this.getDepartments() != null) {
             for (Department department : this.getDepartments()) {
                 department.setCountry(this);
             }
         }
-
     }
 
     private void basics() {
