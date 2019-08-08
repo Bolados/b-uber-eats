@@ -52,23 +52,23 @@ public class Restaurant extends AbstractMetaEntityIdDate {
     private String information;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address", nullable = false)
     @JsonIgnoreProperties(value = {"restaurants"})
     @NotNull
     private Address address;
 
-    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"restaurant"})
     @Builder.Default
     private Set<Phone> phones = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", orphanRemoval = true)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"restaurant"})
     @Builder.Default
     private Set<RestaurantMenu> menus = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", orphanRemoval = true)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"restaurant"})
     @Builder.Default
     private Set<Order> orders = new HashSet<>();

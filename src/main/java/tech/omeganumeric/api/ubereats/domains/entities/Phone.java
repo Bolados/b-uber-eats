@@ -46,7 +46,7 @@ public class Phone extends AbstractMetaEntityIdDate {
     @Builder.Default
     private User user = null;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant")
     @JsonIgnoreProperties(value = {"phones"})
     @Builder.Default

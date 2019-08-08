@@ -40,13 +40,13 @@ public class Town extends AbstractMetaEntityIdDateGeometry {
     @Column
     private String variant;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     @JsonIgnoreProperties(value = {"towns"})
     @NotNull
     private District district;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "town", orphanRemoval = true)
+    @OneToMany(mappedBy = "town", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"town"})
     @Builder.Default
     private Set<Address> addresses = new HashSet<>();

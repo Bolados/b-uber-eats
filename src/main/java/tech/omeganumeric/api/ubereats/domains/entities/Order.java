@@ -33,13 +33,13 @@ public class Order extends AbstractMetaEntityDate {
     @EmbeddedId
     private OrderId id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status", nullable = false)
     @JsonIgnoreProperties(value = {"orders"})
     @NotNull
     private OrderStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment")
     @JsonIgnoreProperties(value = {"orders"})
     private Payment payment;

@@ -42,7 +42,7 @@ public class OrderStatus extends AbstractMetaEntityIdDate {
     @Column
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "status", orphanRemoval = true)
+    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"status"})
     @Builder.Default
     private Set<Order> orders = new HashSet<>();

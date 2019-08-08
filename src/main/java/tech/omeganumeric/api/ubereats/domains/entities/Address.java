@@ -37,32 +37,28 @@ public class Address extends AbstractMetaEntityIdDateLocation {
     @NotNull
     private String room;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "town", nullable = false)
     @JsonIgnoreProperties(value = {"addresses"})
     @NotNull
     private Town town;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "residence", orphanRemoval = true)
+    @OneToMany(mappedBy = "residence", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"residence"})
     @Builder.Default
     private Set<User> residents = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "location", orphanRemoval = true)
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"locations"})
     @Builder.Default
     private Set<User> locations = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "delivery", orphanRemoval = true)
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"deliveries"})
     @Builder.Default
     private Set<User> deliveries = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "address", orphanRemoval = true)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"restaurants"})
     @Builder.Default
     private Set<Restaurant> restaurants = new HashSet<>();

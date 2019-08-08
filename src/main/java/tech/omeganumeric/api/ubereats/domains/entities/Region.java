@@ -48,7 +48,7 @@ public class Region extends AbstractMetaEntityIdDate {
     private String name;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region", orphanRemoval = true)
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"region"})
     @Builder.Default
     private Set<Country> countries = new HashSet<>();

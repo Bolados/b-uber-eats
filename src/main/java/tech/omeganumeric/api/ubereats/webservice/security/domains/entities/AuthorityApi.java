@@ -44,13 +44,7 @@ public class AuthorityApi extends AbstractMetaEntityIdDate {
     @Column
     private String description;
 
-    @ManyToMany(cascade = {
-//            CascadeType.PERSIST,
-//            CascadeType.MERGE,
-//            CascadeType.REFRESH,
-//            CascadeType.DETACH
-            CascadeType.ALL
-    })
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "api_users_authorities",
             joinColumns = @JoinColumn(

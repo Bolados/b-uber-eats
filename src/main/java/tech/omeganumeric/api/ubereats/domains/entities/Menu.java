@@ -59,12 +59,12 @@ public class Menu extends AbstractMetaEntityIdDate {
     @NotNull
     private Media media;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu", orphanRemoval = true)
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"menu"})
     @Builder.Default
     private Set<RestaurantMenu> restaurants = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu", orphanRemoval = true)
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"menu"})
     @Builder.Default
     private Set<Order> orders = new HashSet<>();

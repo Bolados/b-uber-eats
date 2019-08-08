@@ -28,12 +28,12 @@ public class Payment extends AbstractMetaEntityIdDate {
     private static final long serialVersionUID = -8603788421741922465L;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "payment", orphanRemoval = true)
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"payment"})
     @Builder.Default
     private Set<Order> orders = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mode", nullable = false)
     @JsonIgnoreProperties(value = {"payments"})
     @NotNull

@@ -42,7 +42,7 @@ public class PaymentMode extends AbstractMetaEntityIdDate {
     @Column
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mode", orphanRemoval = true)
+    @OneToMany(mappedBy = "mode", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"mode"})
     @Builder.Default
     private Set<Payment> payments = new HashSet<>();

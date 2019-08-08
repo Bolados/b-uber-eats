@@ -90,7 +90,7 @@ public class UserApi extends AbstractMetaEntityIdDate {
     @LastModifiedDate
     private LocalDateTime lastPasswordResetDate;
 
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = {"users"})
     @Builder.Default
     private Set<AuthorityApi> authorities = new HashSet<>();
