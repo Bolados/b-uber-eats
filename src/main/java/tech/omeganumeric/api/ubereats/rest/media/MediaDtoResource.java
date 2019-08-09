@@ -13,7 +13,7 @@ public class MediaDtoResource extends ResourceSupport {
 
     public MediaDtoResource(final MediaDtoResponse media) {
         this.media = media;
-        add(linkTo(methodOn(MediaRepositoryController.class).get(media.getId())).withSelfRel());
+        add(linkTo(methodOn(MediaRepositoryController.class).findMediaById(media.getId())).withSelfRel());
     }
 
 

@@ -16,7 +16,7 @@ import java.util.Optional;
 @RepositoryRestResource(
         collectionResourceRel = MediaRepository.PATH,
         path = MediaRepository.PATH,
-        exported = false
+        exported = true
 )
 public interface MediaRepository extends MetaRepository<Media, Long> {
     String PATH = "medias";

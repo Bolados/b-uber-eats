@@ -1,5 +1,9 @@
 package tech.omeganumeric.api.ubereats.services;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tech.omeganumeric.api.ubereats.configs.FileStorageProperties;
@@ -11,6 +15,7 @@ import tech.omeganumeric.api.ubereats.rest.media.MediaDtoResponse;
 import tech.omeganumeric.api.ubereats.services.filestorage.FileStorageService;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 public class MediaRepositoryService extends FileStorageService {
@@ -42,8 +47,38 @@ public class MediaRepositoryService extends FileStorageService {
                 .build();
     }
 
+    private int safeIntValue(String value) {
+        if (value == null)
+            return Integer.MAX_VALUE;
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
+    }
+
+    public Slice<Media> findAllMedia(String page, String sort, String size) {
+        int p = this.safeIntValue(page);
+        int s = this.safeIntValue(size);
+        Pageable pageable = PageRequest.of(p, s);
+        if (sort != null) {
+            pageable = PageRequest.of(p, s, Sort.by(sort));
+        }
+        return this.mediaRepository.findAll(pageable);
+    }
+
+    public List<Media> findAllMedia() {
+        return this.mediaRepository.findAll();
+    }
+
     public Media findMediaById(Long id) {
         return this.mediaRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("media not found")
+        );
+    }
+
+    public Media findMediaByName(String name) {
+        return this.mediaRepository.findByName(name).orElseThrow(
                 () -> new EntityNotFoundException("media not found")
         );
     }

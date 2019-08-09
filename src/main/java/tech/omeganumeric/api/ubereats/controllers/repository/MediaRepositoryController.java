@@ -1,6 +1,9 @@
 package tech.omeganumeric.api.ubereats.controllers.repository;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.rest.webmvc.BasePathAwareController;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +17,12 @@ import tech.omeganumeric.api.ubereats.rest.media.MediaDtoResource;
 import tech.omeganumeric.api.ubereats.services.MediaRepositoryService;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RepositoryRestController
-@RequestMapping(
-        value = MediaRepository.PATH
-)
+@BasePathAwareController
 public class MediaRepositoryController {
 
     private final MediaRepositoryService mediaRepositoryService;
@@ -29,20 +32,83 @@ public class MediaRepositoryController {
     }
 
     @RequestMapping(
-            value = "/{id}",
+            path = MediaRepository.PATH + "/search/findById",
             method = RequestMethod.GET
     )
-    public ResponseEntity<MediaDtoResource> get(
+    public ResponseEntity<MediaDtoResource> findMediaById(
             @PathVariable final Long id
     ) {
+        log.debug("Controller get media ");
         Media media = mediaRepositoryService.findMediaById(id);
         return ResponseEntity.ok(new MediaDtoResource(
                 this.mediaRepositoryService.convertMediaToDto(media)
         ));
     }
 
+    @RequestMapping(
+            path = MediaRepository.PATH + "/search/findByName",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<MediaDtoResource> findByNameMedia(
+            @RequestParam final String name
+    ) {
+        log.debug("Controller find media by name");
+        Media media = mediaRepositoryService.findMediaByName(name);
+        return ResponseEntity.ok(new MediaDtoResource(
+                this.mediaRepositoryService.convertMediaToDto(media)
+        ));
+    }
 
     @RequestMapping(
+            path = MediaRepository.PATH + "/search/findAll",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<Resources<MediaDtoResource>> findAllMedia() {
+        log.debug("Controller get all media ");
+        final List<MediaDtoResource> mediaDtoResources = mediaRepositoryService.findAllMedia()
+                .stream()
+                .map(media -> new MediaDtoResource(
+                        this.mediaRepositoryService.convertMediaToDto(media)
+                )).collect(Collectors.toList());
+        final Resources<MediaDtoResource> resources = new Resources<>(mediaDtoResources);
+        resources.add(
+                new Link(
+                        ServletUriComponentsBuilder.fromCurrentRequest().build().toUriString(),
+                        "self"
+                )
+        );
+        return ResponseEntity.ok(resources);
+    }
+
+    @RequestMapping(
+            path = MediaRepository.PATH,
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<Resources<MediaDtoResource>> allMedia(
+            @RequestParam final String page,
+            @RequestParam final String sort,
+            @RequestParam final String size
+    ) {
+        log.debug("Controller get all media ");
+        final List<MediaDtoResource> mediaDtoResources = mediaRepositoryService.findAllMedia(
+                page, sort, size)
+                .stream()
+                .map(media -> new MediaDtoResource(
+                        this.mediaRepositoryService.convertMediaToDto(media)
+                )).collect(Collectors.toList());
+        final Resources<MediaDtoResource> resources = new Resources<>(mediaDtoResources);
+        resources.add(
+                new Link(
+                        ServletUriComponentsBuilder.fromCurrentRequest().build().toUriString(),
+                        "self"
+                )
+        );
+        return ResponseEntity.ok(resources);
+    }
+
+
+    @RequestMapping(
+            path = MediaRepository.PATH,
             method = RequestMethod.POST,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
@@ -50,6 +116,7 @@ public class MediaRepositoryController {
             @RequestPart MediaDtoRequest mediaDtoRequest,
             @RequestPart MultipartFile file
     ) {
+        log.debug("Controller save media ");
         Media media = mediaRepositoryService.save(file, mediaDtoRequest);
         final URI uri =
                 MvcUriComponentsBuilder.fromController(getClass())
@@ -60,24 +127,28 @@ public class MediaRepositoryController {
     }
 
     @RequestMapping(
-            method = RequestMethod.PUT,
+            path = MediaRepository.PATH + "/{id}",
+            method = {RequestMethod.PUT, RequestMethod.PATCH},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
-    public ResponseEntity updateMedia(
-            @RequestPart Long id,
+    public ResponseEntity saveMedia(
+            @PathVariable Long id,
             @RequestPart MediaDtoRequest mediaDtoRequest,
             @RequestPart MultipartFile file
     ) {
+        log.debug("Controller put media ");
         Media media = mediaRepositoryService.update(id, file, mediaDtoRequest);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
         return ResponseEntity.created(uri).body(this.mediaRepositoryService.convertMediaToDto(media));
     }
 
     @RequestMapping(
+            path = MediaRepository.PATH + "/{id}",
             method = RequestMethod.DELETE
     )
-    public ResponseEntity deleteMedia(@RequestParam Long id
+    public ResponseEntity deleteMedia(@PathVariable Long id
     ) {
+        log.debug("Controller delete media ");
         mediaRepositoryService.delete(id);
         return ResponseEntity.ok().build();
     }

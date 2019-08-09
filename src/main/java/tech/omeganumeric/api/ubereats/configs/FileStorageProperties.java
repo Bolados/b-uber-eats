@@ -1,14 +1,15 @@
 package tech.omeganumeric.api.ubereats.configs;
 
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-@Getter
+@Data
 @Configuration
+@ConfigurationProperties(prefix = "storage.file")
 public class FileStorageProperties {
 
-    @Value("${storage.file.path }")
     private String path;
 
+    private String extensions;
 }
