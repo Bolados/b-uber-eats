@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import tech.omeganumeric.api.ubereats.repositories.MetaRepository;
+import tech.omeganumeric.api.ubereats.repositories.meta.MetaRepository;
 import tech.omeganumeric.api.ubereats.webservice.security.domains.entities.UserApi;
 
 import java.util.List;

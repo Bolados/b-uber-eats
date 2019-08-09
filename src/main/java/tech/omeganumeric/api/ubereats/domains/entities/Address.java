@@ -72,7 +72,7 @@ public class Address extends AbstractMetaEntityIdDateLocation {
     }
 
     private void basics() {
-
+        this.setRoom(this.getRoom().toUpperCase());
     }
 
     @PrePersist

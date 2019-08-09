@@ -47,6 +47,7 @@ public class Department extends AbstractMetaEntityIdDateGeometry {
 
     @Column(length = 3)
     @Size(max = 3)
+    @NotNull
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,12 +62,16 @@ public class Department extends AbstractMetaEntityIdDateGeometry {
     private Set<District> districts = new HashSet<>();
 
     public void updateAssociations() {
-        for (District district : this.districts) {
-            district.setDepartment(this);
+        if (this.getDistricts() != null) {
+            for (District district : this.getDistricts()) {
+                district.setDepartment(this);
+            }
         }
+
     }
 
     private void basics() {
+        this.setCode(this.getCode().toUpperCase());
 
     }
 

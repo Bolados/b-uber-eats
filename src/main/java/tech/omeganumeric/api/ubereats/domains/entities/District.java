@@ -44,6 +44,7 @@ public class District extends AbstractMetaEntityIdDateGeometry {
 
     @Column(length = 3)
     @Size(max = 3)
+    @NotNull
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -59,13 +60,16 @@ public class District extends AbstractMetaEntityIdDateGeometry {
 
 
     public void updateAssociations() {
-        for (Town town : this.towns) {
-            town.setDistrict(this);
+        if (this.getTowns() != null) {
+            for (Town town : this.getTowns()) {
+                town.setDistrict(this);
+            }
         }
+
     }
 
     private void basics() {
-
+        this.setCode(this.getCode().toUpperCase());
     }
 
     @PrePersist

@@ -52,6 +52,11 @@ public class Town extends AbstractMetaEntityIdDateGeometry {
     private Set<Address> addresses = new HashSet<>();
 
     public void updateAssociations() {
+        if (this.getAddresses() != null) {
+            for (Address address : this.getAddresses()) {
+                address.setTown(this);
+            }
+        }
     }
 
     private void basics() {

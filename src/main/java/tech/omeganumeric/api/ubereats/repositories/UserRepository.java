@@ -6,6 +6,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import tech.omeganumeric.api.ubereats.domains.entities.Phone;
 import tech.omeganumeric.api.ubereats.domains.entities.User;
+import tech.omeganumeric.api.ubereats.repositories.meta.MetaRepository;
 
 import java.util.Optional;
 

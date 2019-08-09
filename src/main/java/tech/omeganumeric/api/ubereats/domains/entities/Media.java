@@ -30,10 +30,12 @@ public class Media extends AbstractMetaEntityIdDate {
     @JsonIgnoreProperties(value = {"media"})
     @Builder.Default
     Menu menu = null;
+
     @Column(nullable = false, unique = true)
     private String name;
+
     @Column(nullable = false)
-    private String mineType;
+    private String type;
 
     public void updateAssociations() {
     }
