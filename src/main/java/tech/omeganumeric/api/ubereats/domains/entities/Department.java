@@ -45,7 +45,7 @@ public class Department extends AbstractMetaEntityIdDateGeometry {
     @Column
     private String variant;
 
-    @Column(length = 3)
+    @Column(length = 3, nullable = false)
     @Size(max = 3)
     @NotNull
     private String code;
