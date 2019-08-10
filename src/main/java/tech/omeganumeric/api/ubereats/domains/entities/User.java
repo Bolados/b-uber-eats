@@ -82,8 +82,9 @@ public class User extends AbstractMetaEntityIdDate {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "residence")
+    @JoinColumn(name = "residence", nullable = false)
     @JsonIgnoreProperties(value = {"residents"})
+    @NotNull
     private Address residence;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -93,10 +94,10 @@ public class User extends AbstractMetaEntityIdDate {
     private Address location = null;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery")
+    @JoinColumn(name = "delivery", nullable = false)
     @JsonIgnoreProperties(value = {"deliveries"})
-    @Builder.Default
-    private Address delivery = null;
+    @NotNull
+    private Address delivery;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JsonIgnoreProperties(value = {"user"})
@@ -121,6 +122,7 @@ public class User extends AbstractMetaEntityIdDate {
     }
 
     private void checkAddressesByRoles() {
+
     }
 
     private void updateAssociation() {

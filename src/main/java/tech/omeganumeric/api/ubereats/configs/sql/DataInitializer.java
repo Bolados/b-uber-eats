@@ -23,8 +23,6 @@ public class DataInitializer implements CommandLineRunner {
     private final CountryRepository countryRepository;
 
 
-
-
     DataInitializer(
             RoleRepository roleRepository,
             RegionRepository regionRepository,
@@ -150,7 +148,7 @@ public class DataInitializer implements CommandLineRunner {
         Region region = this.regionRepository.findByCode("AF")
                 .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
 
-        // phones
+        // country
         final List<Country> countries = Stream.of(
                 Country.builder()
                         .name("Benin")
