@@ -113,8 +113,8 @@ public class MediaRepositoryController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity saveMedia(
-            @RequestPart MediaDtoRequest mediaDtoRequest,
-            @RequestPart MultipartFile file
+            @RequestPart MultipartFile file,
+            @RequestPart MediaDtoRequest mediaDtoRequest
     ) {
         log.debug("Controller save media ");
         Media media = mediaRepositoryService.save(file, mediaDtoRequest);
