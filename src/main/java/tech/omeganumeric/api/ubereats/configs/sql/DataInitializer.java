@@ -21,6 +21,15 @@ public class DataInitializer implements CommandLineRunner {
     private final PaymentModeRepository paymentModeRepository;
     private final PhoneRepository phoneRepository;
     private final CountryRepository countryRepository;
+    private final DepartmentRepository departmentRepository;
+    private final DistrictRepository districtRepository;
+    private final MenuRepository menuRepository;
+    private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
+    private final RestaurantMenuRepository restaurantMenuRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final TownRepository townRepository;
+    private final AddressRepository addressRepository;
 
 
     DataInitializer(
@@ -31,8 +40,16 @@ public class DataInitializer implements CommandLineRunner {
             OrderStatusRepository orderStatusRepository,
             PaymentModeRepository paymentModeRepository,
             PhoneRepository phoneRepository,
-            CountryRepository countryRepository
-
+            CountryRepository countryRepository,
+            DepartmentRepository departmentRepository,
+            DistrictRepository districtRepository,
+            MenuRepository menuRepository,
+            OrderRepository orderRepository,
+            PaymentRepository paymentRepository,
+            RestaurantMenuRepository restaurantMenuRepository,
+            RestaurantRepository restaurantRepository,
+            TownRepository townRepository,
+            AddressRepository addressRepository
     ) {
         this.roleRepository = roleRepository;
         this.regionRepository = regionRepository;
@@ -42,6 +59,15 @@ public class DataInitializer implements CommandLineRunner {
         this.paymentModeRepository = paymentModeRepository;
         this.phoneRepository = phoneRepository;
         this.countryRepository = countryRepository;
+        this.departmentRepository = departmentRepository;
+        this.districtRepository = districtRepository;
+        this.menuRepository = menuRepository;
+        this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
+        this.restaurantMenuRepository = restaurantMenuRepository;
+        this.restaurantRepository = restaurantRepository;
+        this.townRepository = townRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override

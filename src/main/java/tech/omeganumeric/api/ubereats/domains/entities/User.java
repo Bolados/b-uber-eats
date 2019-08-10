@@ -89,7 +89,7 @@ public class User extends AbstractMetaEntityIdDate {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location")
-    @JsonIgnoreProperties(value = {"locations"})
+    @JsonIgnoreProperties(value = {"locatedUsers"})
     @Builder.Default
     private Address location = null;
 

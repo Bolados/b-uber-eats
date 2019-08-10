@@ -16,7 +16,7 @@ import java.util.Optional;
 @RepositoryRestResource(
         collectionResourceRel = TownRepository.PATH,
         path = TownRepository.PATH,
-        exported = false
+        exported = true
 )
 public interface TownRepository extends MetaRepository<Town, Long> {
     String PATH = "towns";
