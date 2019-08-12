@@ -95,9 +95,9 @@ public class User extends AbstractMetaEntityIdDate {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery", nullable = false)
-    @JsonIgnoreProperties(value = {"deliveries"})
-    @NotNull
-    private Address delivery;
+    @JsonIgnoreProperties(value = {"deliveryUsers"})
+    @Builder.Default
+    private Address delivery = null;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JsonIgnoreProperties(value = {"user"})
@@ -119,6 +119,9 @@ public class User extends AbstractMetaEntityIdDate {
 
 
     private void basics() {
+        if (this.getDelivery() == null) {
+            this.setDelivery(this.getResidence());
+        }
     }
 
     private void checkAddressesByRoles() {

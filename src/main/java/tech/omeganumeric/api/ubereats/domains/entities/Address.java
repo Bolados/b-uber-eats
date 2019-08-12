@@ -15,8 +15,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true, exclude = {"town", "residents", "locatedUsers", "deliveries", "addressSavedBy"})
-@ToString(callSuper = true, exclude = {"residents", "locatedUsers", "deliveries", "addressSavedBy"})
+@EqualsAndHashCode(callSuper = true, exclude = {"town", "residents", "locatedUsers", "deliveryUsers", "addressSavedBy"})
+@ToString(callSuper = true, exclude = {"residents", "locatedUsers", "deliveryUsers", "addressSavedBy"})
 @Table(
         name = Address.FIELD_ENTITY_TABLE_NAME
 )
@@ -56,7 +56,7 @@ public class Address extends AbstractMetaEntityIdDateLocation {
     @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"deliveries"})
     @Builder.Default
-    private Set<User> deliveries = new HashSet<>();
+    private Set<User> deliveryUsers = new HashSet<>();
 
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"restaurants"})

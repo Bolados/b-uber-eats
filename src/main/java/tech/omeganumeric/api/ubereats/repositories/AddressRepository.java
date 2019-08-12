@@ -25,7 +25,7 @@ public interface AddressRepository extends MetaRepository<Address, Long> {
             "left join l.town " +
             "left join l.residents " +
             "left join l.locatedUsers " +
-            "left join l.deliveries " +
+            "left join l.deliveryUsers " +
             "left join l.restaurants " +
             "left join l.addressSavedBy "
     )
@@ -37,7 +37,7 @@ public interface AddressRepository extends MetaRepository<Address, Long> {
             "left join l.town " +
             "left join l.residents " +
             "left join l.locatedUsers " +
-            "left join l.deliveries " +
+            "left join l.deliveryUsers " +
             "left join l.restaurants " +
             "left join l.addressSavedBy " +
             "where lower(l.street) = lower(:street) " +

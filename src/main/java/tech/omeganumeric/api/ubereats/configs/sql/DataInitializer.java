@@ -1,6 +1,7 @@
 package tech.omeganumeric.api.ubereats.configs.sql;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import tech.omeganumeric.api.ubereats.domains.entities.*;
 import tech.omeganumeric.api.ubereats.repositories.*;
@@ -30,6 +31,7 @@ public class DataInitializer implements CommandLineRunner {
     private final RestaurantRepository restaurantRepository;
     private final TownRepository townRepository;
     private final AddressRepository addressRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     DataInitializer(
@@ -49,7 +51,8 @@ public class DataInitializer implements CommandLineRunner {
             RestaurantMenuRepository restaurantMenuRepository,
             RestaurantRepository restaurantRepository,
             TownRepository townRepository,
-            AddressRepository addressRepository
+            AddressRepository addressRepository,
+            PasswordEncoder passwordEncoder
     ) {
         this.roleRepository = roleRepository;
         this.regionRepository = regionRepository;
@@ -68,6 +71,7 @@ public class DataInitializer implements CommandLineRunner {
         this.restaurantRepository = restaurantRepository;
         this.townRepository = townRepository;
         this.addressRepository = addressRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -201,5 +205,91 @@ public class DataInitializer implements CommandLineRunner {
 
         ).collect(Collectors.toList());
         this.countryRepository.saveAll(countries);
+
+        Country country = this.countryRepository.findByCode2("BJ")
+                .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+
+        // country
+        final List<Department> departments = Stream.of(
+                Department.builder()
+                        .name("Litoral")
+                        .code("LT")
+                        .variant("litoral")
+                        .country(country)
+                        .districts(new HashSet<>())
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.departmentRepository.saveAll(departments);
+
+        Department department = this.departmentRepository.findByCode("LT")
+                .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+
+        // town
+        final List<District> districts = Stream.of(
+                District.builder()
+                        .name("Cotonou")
+                        .code("CTN")
+                        .variant("cotonou")
+                        .department(department)
+                        .towns(new HashSet<>())
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.districtRepository.saveAll(districts);
+
+        District district = this.districtRepository.findByCode("CTN")
+                .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+
+        // town
+        final List<Town> towns = Stream.of(
+                Town.builder()
+                        .name("Cadjehoun")
+                        .variant("cotonou")
+                        .district(district)
+                        .addresses(new HashSet<>())
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.districtRepository.saveAll(districts);
+
+        Town town = this.townRepository.findByName("Cadjehoun")
+                .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+
+        // town
+        final List<Address> addresses = Stream.of(
+                Address.builder()
+                        .street("Boulevard de ;a marina")
+                        .building("28")
+                        .room("22")
+                        .town(town)
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.addressRepository.saveAll(addresses);
+
+        Role role = this.roleRepository.findByName("EATER")
+                .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+        Phone phone = this.phoneRepository.save(Phone.builder().number("7894123560").build());
+        phone = this.phoneRepository.findByNumber(phone.getNumber())
+                .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+        Address address = this.addressRepository.findByStreet(addresses.get(0).getStreet())
+                .stream().findFirst().orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
+
+        // town
+        final List<User> users = Stream.of(
+                User.builder()
+                        .phone(phone)
+                        .login("eater")
+                        .email("eater@eater.com")
+                        .password(passwordEncoder.encode("eater"))
+                        .residence(address)
+                        .location(address)
+                        .build()
+
+        ).collect(Collectors.toList());
+        this.userRepository.saveAll(users);
+
+
     }
 }
