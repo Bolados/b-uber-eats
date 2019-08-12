@@ -20,10 +20,10 @@ public interface RestaurantRepository extends MetaRepository<Restaurant, Long> {
     String PATH = "restaurants";
 
     @Query("SELECT l from Restaurant l " +
-            "left join l.address " +
-            "left join l.phones " +
-            "left join l.menus " +
-            "left join l.orders "
+            "left join fetch  l.address " +
+            "left join fetch  l.phones " +
+            "left join fetch  l.menus " +
+            "left join fetch  l.orders "
     )
     @Override
     List<Restaurant> findAll();

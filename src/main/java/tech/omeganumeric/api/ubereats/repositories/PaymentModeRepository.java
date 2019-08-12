@@ -21,13 +21,13 @@ import java.util.Optional;
 public interface PaymentModeRepository extends MetaRepository<PaymentMode, Long> {
     String PATH = "payments_modes";
 
-    @Query("SELECT l from PaymentMode l left join l.payments")
+    @Query("SELECT l from PaymentMode l left join fetch  l.payments")
     @Override
     List<PaymentMode> findAll();
 
 
     @Query("SELECT l from PaymentMode l " +
-            "left join l.payments " +
+            "left join fetch  l.payments " +
             "where lower(l.mode) = lower(:mode) " +
             "")
     Optional<PaymentMode> findByMode(@Param("mode") String mode);

@@ -22,26 +22,26 @@ public interface MenuRepository extends MetaRepository<Menu, Long> {
     String PATH = "Menus";
 
     @Query("SELECT l from Menu l " +
-            "left join l.media " +
-            "left join l.restaurants " +
-            "left join l.orders"
+            "left join fetch  l.media " +
+            "left join fetch  l.restaurants " +
+            "left join fetch  l.orders"
     )
     @Override
     List<Menu> findAll();
 
 
     @Query("SELECT l from Menu l " +
-            "left join l.media " +
-            "left join l.restaurants " +
-            "left join l.orders " +
+            "left join fetch  l.media " +
+            "left join fetch  l.restaurants " +
+            "left join fetch  l.orders " +
             "where lower(l.code) = lower(:code) " +
             "")
     Optional<Menu> findByCode(@Param("code") String code);
 
     @Query("SELECT l from Menu l " +
-            "left join l.media " +
-            "left join l.restaurants " +
-            "left join l.orders " +
+            "left join fetch  l.media " +
+            "left join fetch  l.restaurants " +
+            "left join fetch  l.orders " +
             "where lower(l.name) = lower(:name) " +
             "")
     List<Menu> findByName(@Param("name") String name);

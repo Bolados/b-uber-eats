@@ -22,11 +22,11 @@ public interface OrderRepository extends MetaRepository<Order, OrderId> {
     String PATH = "Orders";
 
     @Query("SELECT l from Order l " +
-            "left join l.status " +
-            "left join l.payment " +
-            "left join l.restaurant " +
-            "left join l.menu " +
-            "left join l.user "
+            "left join fetch  l.status " +
+            "left join fetch  l.payment " +
+            "left join fetch  l.restaurant " +
+            "left join fetch  l.menu " +
+            "left join fetch  l.user "
     )
     @Override
     List<Order> findAll();

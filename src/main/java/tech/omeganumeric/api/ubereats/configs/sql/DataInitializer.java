@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import tech.omeganumeric.api.ubereats.domains.entities.*;
 import tech.omeganumeric.api.ubereats.repositories.*;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -251,7 +252,7 @@ public class DataInitializer implements CommandLineRunner {
                         .build()
 
         ).collect(Collectors.toList());
-        this.districtRepository.saveAll(districts);
+        this.townRepository.saveAll(towns);
 
         Town town = this.townRepository.findByName("Cadjehoun")
                 .orElseThrow(() -> new IllegalArgumentException("data initialiser countries"));
@@ -285,6 +286,7 @@ public class DataInitializer implements CommandLineRunner {
                         .password("eater")
                         .residence(address)
                         .location(address)
+                        .roles(new HashSet<>(Arrays.asList(role)))
                         .build()
 
         ).collect(Collectors.toList());

@@ -22,7 +22,7 @@ public interface MediaRepository extends MetaRepository<Media, Long> {
     String PATH = "medias";
 
     @Query("SELECT l from Media l " +
-            "left join l.menu" +
+            "left join fetch  l.menu" +
             ""
     )
     @Override
@@ -30,7 +30,7 @@ public interface MediaRepository extends MetaRepository<Media, Long> {
 
 
     @Query("SELECT l from Media l " +
-            "left join l.menu " +
+            "left join fetch  l.menu " +
             "where lower(l.name) = lower(:name) " +
             "")
     Optional<Media> findByName(@Param("name") String name);

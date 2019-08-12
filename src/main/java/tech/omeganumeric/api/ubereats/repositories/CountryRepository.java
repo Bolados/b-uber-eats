@@ -22,44 +22,44 @@ public interface CountryRepository extends MetaRepository<Country, Long> {
     String PATH = "countries";
 
     @Query("SELECT l from Country l " +
-            "left join l.region " +
-            "left join l.departments"
+            "left join fetch l.region " +
+            "left join fetch l.departments"
     )
     @Override
     List<Country> findAll();
 
 
     @Query("SELECT l from Country l " +
-            "left join l.region " +
-            "left join l.departments " +
+            "left join fetch l.region " +
+            "left join fetch l.departments " +
             "where lower(l.name) = lower(:name) " +
             "")
     Optional<Country> findByName(@Param("name") String name);
 
     @Query("SELECT l from Country l " +
-            "left join l.region " +
-            "left join l.departments " +
+            "left join fetch l.region " +
+            "left join fetch l.departments " +
             "where lower(l.code2) = lower(:code2) " +
             "")
     Optional<Country> findByCode2(@Param("code2") String code2);
 
     @Query("SELECT l from Country l " +
-            "left join l.region " +
-            "left join l.departments " +
+            "left join fetch l.region " +
+            "left join fetch l.departments " +
             "where lower(l.code3) = lower(:code3) " +
             "")
     Optional<Country> findByCode3(@Param("code3") String code3);
 
     @Query("SELECT l from Country l " +
-            "left join l.region " +
-            "left join l.departments " +
+            "left join fetch l.region " +
+            "left join fetch l.departments " +
             "where lower(l.phoneCode) = lower(:phoneCode) " +
             "")
     Optional<Country> findByPhoneCode(@Param("phoneCode") String phoneCode);
 
     @Query("SELECT l from Country l " +
-            "left join l.region " +
-            "left join l.departments " +
+            "left join fetch l.region " +
+            "left join fetch l.departments " +
             "where lower(l.domain) = lower(:domain) " +
             "")
     Optional<Country> findByDomain(@Param("domain") String domain);

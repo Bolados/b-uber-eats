@@ -22,14 +22,14 @@ public interface OrderStatusRepository extends MetaRepository<OrderStatus, Long>
     String PATH = "orders_statuses";
 
     @Query("SELECT l from OrderStatus l " +
-            "left join l.orders"
+            "left join fetch  l.orders"
     )
     @Override
     List<OrderStatus> findAll();
 
 
     @Query("SELECT l from OrderStatus l " +
-            "left join l.orders " +
+            "left join fetch  l.orders " +
             "where lower(l.status) = lower(:status) " +
             "")
     Optional<OrderStatus> findByStatus(@Param("status") String status);

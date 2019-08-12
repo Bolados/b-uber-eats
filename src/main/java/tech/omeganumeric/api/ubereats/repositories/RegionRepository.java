@@ -21,19 +21,19 @@ import java.util.Optional;
 public interface RegionRepository extends MetaRepository<Region, Long> {
     String PATH = "regions";
 
-    @Query("SELECT l from Region l left join l.countries")
+    @Query("SELECT l from Region l left join fetch  l.countries")
     @Override
     List<Region> findAll();
 
 
     @Query("SELECT l from Region l " +
-            "left join l.countries " +
+            "left join fetch  l.countries " +
             "where lower(l.code) = lower(:code) " +
             "")
     Optional<Region> findByCode(@Param("code") String code);
 
     @Query("SELECT l from Region l " +
-            "left join l.countries " +
+            "left join fetch  l.countries " +
             "where lower(l.name) = lower(:name) " +
             "")
     Optional<Region> findByName(@Param("name") String name);

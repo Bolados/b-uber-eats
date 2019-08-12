@@ -22,8 +22,8 @@ public interface RestaurantMenuRepository
     String PATH = "restaurants_menus";
 
     @Query("SELECT l from RestaurantMenu l " +
-            "left join l.restaurant " +
-            "left join l.menu "
+            "left join fetch  l.restaurant " +
+            "left join fetch  l.menu "
     )
     @Override
     List<RestaurantMenu> findAll();

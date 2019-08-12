@@ -22,23 +22,23 @@ public interface DistrictRepository extends MetaRepository<District, Long> {
     String PATH = "districts";
 
     @Query("SELECT l from District l " +
-            "left join l.department " +
-            "left join l.towns"
+            "left join fetch  l.department " +
+            "left join fetch  l.towns"
     )
     @Override
     List<District> findAll();
 
 
     @Query("SELECT l from District l " +
-            "left join l.department " +
-            "left join l.towns " +
+            "left join fetch  l.department " +
+            "left join fetch  l.towns " +
             "where lower(l.name) = lower(:name) " +
             "")
     Optional<District> findByName(@Param("name") String name);
 
     @Query("SELECT l from District l " +
-            "left join l.department " +
-            "left join l.towns " +
+            "left join fetch  l.department " +
+            "left join fetch  l.towns " +
             "where lower(l.code) = lower(:code) " +
             "")
     Optional<District> findByCode(@Param("code") String code);

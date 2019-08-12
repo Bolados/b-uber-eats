@@ -22,23 +22,23 @@ public interface DepartmentRepository extends MetaRepository<Department, Long> {
     String PATH = "departments";
 
     @Query("SELECT l from Department l " +
-            "left join l.country " +
-            "left join l.districts"
+            "left join fetch l.country " +
+            "left join fetch l.districts"
     )
     @Override
     List<Department> findAll();
 
 
     @Query("SELECT l from Department l " +
-            "left join l.country " +
-            "left join l.districts " +
+            "left join fetch l.country " +
+            "left join fetch l.districts " +
             "where lower(l.name) = lower(:name) " +
             "")
     Optional<Department> findByName(@Param("name") String name);
 
     @Query("SELECT l from Department l " +
-            "left join l.country " +
-            "left join l.districts " +
+            "left join fetch l.country " +
+            "left join fetch l.districts " +
             "where lower(l.code) = lower(:code) " +
             "")
     Optional<Department> findByCode(@Param("code") String code);

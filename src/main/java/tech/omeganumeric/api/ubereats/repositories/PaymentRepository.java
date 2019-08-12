@@ -21,7 +21,7 @@ public interface PaymentRepository extends MetaRepository<Payment, Long> {
     String PATH = "Payments";
 
     @Query("SELECT l from Payment l " +
-            "left join l.orders "
+            "left join fetch  l.orders "
     )
     @Override
     List<Payment> findAll();

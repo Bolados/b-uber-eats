@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import tech.omeganumeric.api.ubereats.configs.AppConfig;
+import tech.omeganumeric.api.ubereats.configs.AutowiringInEntityConfig;
 import tech.omeganumeric.api.ubereats.domains.entities.meta.AbstractMetaEntityIdDate;
 
 import javax.persistence.*;
@@ -128,7 +128,7 @@ public class User extends AbstractMetaEntityIdDate {
 
     private void encodePassword() {
         PasswordEncoder passwordEncoder =
-                (PasswordEncoder) AppConfig
+                (PasswordEncoder) AutowiringInEntityConfig
                         .contextProvider()
                         .getApplicationContext()
                         .getBean("passwordEncoder");

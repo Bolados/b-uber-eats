@@ -22,16 +22,16 @@ public interface TownRepository extends MetaRepository<Town, Long> {
     String PATH = "towns";
 
     @Query("SELECT l from Town l " +
-            "left join l.district " +
-            "left join l.addresses"
+            "left join fetch  l.district " +
+            "left join fetch  l.addresses"
     )
     @Override
     List<Town> findAll();
 
 
     @Query("SELECT l from Town l " +
-            "left join l.district " +
-            "left join l.addresses " +
+            "left join fetch  l.district " +
+            "left join fetch  l.addresses " +
             "where lower(l.name) = lower(:name) " +
             "")
     Optional<Town> findByName(@Param("name") String name);
