@@ -3,6 +3,8 @@ package tech.omeganumeric.api.ubereats.domains.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import tech.omeganumeric.api.ubereats.configs.AppConfig;
 import tech.omeganumeric.api.ubereats.domains.entities.meta.AbstractMetaEntityIdDate;
 
 import javax.persistence.*;
@@ -124,6 +126,16 @@ public class User extends AbstractMetaEntityIdDate {
         }
     }
 
+    private void encodePassword() {
+        PasswordEncoder passwordEncoder =
+                (PasswordEncoder) AppConfig
+                        .contextProvider()
+                        .getApplicationContext()
+                        .getBean("passwordEncoder");
+        this.password = passwordEncoder.encode(this.password);
+
+    }
+
     private void checkAddressesByRoles() {
 
     }
@@ -135,6 +147,7 @@ public class User extends AbstractMetaEntityIdDate {
     public void beforePersist() {
         this.checkAddressesByRoles();
         this.basics();
+        this.encodePassword();
         this.updateAssociation();
     }
 
@@ -142,6 +155,7 @@ public class User extends AbstractMetaEntityIdDate {
     public void beforeUpdate() {
         this.checkAddressesByRoles();
         this.basics();
+        this.encodePassword();
         this.updateAssociation();
     }
 

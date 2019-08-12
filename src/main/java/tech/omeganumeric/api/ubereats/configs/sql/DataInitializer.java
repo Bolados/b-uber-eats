@@ -282,7 +282,7 @@ public class DataInitializer implements CommandLineRunner {
                         .phone(phone)
                         .login("eater")
                         .email("eater@eater.com")
-                        .password(passwordEncoder.encode("eater"))
+                        .password("eater")
                         .residence(address)
                         .location(address)
                         .build()
