@@ -1,5 +1,6 @@
 package tech.omeganumeric.api.ubereats.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -17,6 +18,7 @@ import tech.omeganumeric.api.ubereats.services.filestorage.FileStorageService;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Slf4j
 @Service
 public class MediaRepositoryService extends FileStorageService {
 
@@ -85,6 +87,7 @@ public class MediaRepositoryService extends FileStorageService {
 
     public Media save(MultipartFile multipartFile, MediaDtoRequest mediaDto) {
         File file = super.storeFile(multipartFile, mediaDto.getName());
+        log.warn("saved file {}", file);
         return this.mediaRepository.save(convertFileToMedia(file, mediaDto));
     }
 

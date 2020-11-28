@@ -6,6 +6,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import tech.omeganumeric.api.ubereats.configs.AutowiringInEntityConfig;
 import tech.omeganumeric.api.ubereats.domains.entities.meta.AbstractMetaEntityIdDate;
+import tech.omeganumeric.api.ubereats.repositories.UserRepository;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -132,7 +133,32 @@ public class User extends AbstractMetaEntityIdDate {
                         .contextProvider()
                         .getApplicationContext()
                         .getBean("passwordEncoder");
-        this.password = passwordEncoder.encode(this.password);
+        this.setPassword(passwordEncoder.encode(this.getPassword()));
+
+    }
+
+    private void encodeUpdatePassword() {
+        PasswordEncoder passwordEncoder =
+                (PasswordEncoder) AutowiringInEntityConfig
+                        .contextProvider()
+                        .getApplicationContext()
+                        .getBean("passwordEncoder");
+        UserRepository userRepository =
+                (UserRepository) AutowiringInEntityConfig
+                        .contextProvider()
+                        .getApplicationContext()
+                        .getBean("userRepository");
+        User exist = userRepository.findByEmail(this.getEmail())
+                .orElse(userRepository.findByLogin(this.getLogin())
+                        .orElse(userRepository.findByPhone(this.getPhone())
+                                .orElseThrow(() -> new EntityNotFoundException("user does not exist"))
+                        )
+                );
+        if (!this.getPassword().equalsIgnoreCase(exist.getPassword())
+                && !passwordEncoder.matches(this.getPassword(), exist.getPassword())
+        ) {
+            this.setPassword(passwordEncoder.encode(this.getPassword()));
+        }
 
     }
 
@@ -155,7 +181,7 @@ public class User extends AbstractMetaEntityIdDate {
     public void beforeUpdate() {
         this.checkAddressesByRoles();
         this.basics();
-        this.encodePassword();
+        this.encodeUpdatePassword();
         this.updateAssociation();
     }
 

@@ -33,6 +33,7 @@ public class Phone extends AbstractMetaEntityIdDate {
     public static final String PKEY_FIELD_NAME = Phone.FIELD_NUMBER;
     public static final String PKEY_FIELDS_NAME = Phone.PKEY_FIELD_NAME;
     private static final long serialVersionUID = 3135100165282441128L;
+
     @NaturalId(mutable = true)
     @Column(nullable = false, length = 10)
     @Size(min = 1, max = 10)

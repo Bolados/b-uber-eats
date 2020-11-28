@@ -85,9 +85,9 @@ public class MediaRepositoryController {
             method = RequestMethod.GET
     )
     public ResponseEntity<Resources<MediaDtoResource>> allMedia(
-            @RequestParam final String page,
-            @RequestParam final String sort,
-            @RequestParam final String size
+            @RequestParam(required = false) final String page,
+            @RequestParam(required = false) final String sort,
+            @RequestParam(required = false) final String size
     ) {
         log.debug("Controller get all media ");
         final List<MediaDtoResource> mediaDtoResources = mediaRepositoryService.findAllMedia(
@@ -116,7 +116,7 @@ public class MediaRepositoryController {
             @RequestPart MultipartFile file,
             @RequestPart MediaDtoRequest mediaDtoRequest
     ) {
-        log.debug("Controller save media ");
+        log.warn("Controller save media {} : {} ", file, mediaDtoRequest);
         Media media = mediaRepositoryService.save(file, mediaDtoRequest);
         final URI uri =
                 MvcUriComponentsBuilder.fromController(getClass())

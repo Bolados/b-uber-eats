@@ -290,7 +290,7 @@ public class DataInitializer implements CommandLineRunner {
                         .build()
 
         ).collect(Collectors.toList());
-        this.userRepository.saveAll(users);
+//        this.userRepository.saveAll(users);
 
 
     }
